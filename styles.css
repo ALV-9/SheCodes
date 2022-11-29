@@ -2,11 +2,12 @@ body {
   font-family: "Raleway", sans-serif;
   color: #254b62;
   background: #77abb7;
-  text-align: center;
 }
 h1 {
   padding: 30px 20px 10px 20px;
   font-size: 42px;
+  text-align: center;
+  color: gold;
 }
 h2 {
   font-size: 50px;
@@ -22,4 +23,7 @@ h3 {
 .row {
   font-size: 24px;
   padding: 30px 20px 10px 20px;
+}
+#Titolo {
+  text-align: center;
 }
