@@ -50,6 +50,7 @@ function defineCity(event) {
 
 // Temperature
 function showTemperature(response) {
+  console.log(response);
   let searchedCity = response.data.name;
   let searchedCountry = response.data.sys.country;
   let messageCity = `Currently in ${searchedCity}, ${searchedCountry}`;
@@ -61,8 +62,16 @@ function showTemperature(response) {
   showTemp.innerHTML = messageTemp;
   let weatherIcon = response.data.weather[0].icon;
   let icon = `https://openweathermap.org/img/wn/${weatherIcon}@2x.png`;
-  let image = document.getElementById("iconToday");
-  image.src = icon;
+  console.log(icon);
+  let imageIcon = document.getElementById("iconToday");
+  imageIcon.src = icon;
+  if (hours < 18) {
+    document.getElementById("#styleGiver").className =
+      "container bg-light text-black text-center";
+  } else {
+    document.getElementById("#styleGiver").className =
+      "container bg-dark text-white text-center";
+  }
 }
 
 function startIt(URL) {
