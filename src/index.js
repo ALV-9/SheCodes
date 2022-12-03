@@ -5,6 +5,7 @@ const units = "metric";
 let momento = "";
 momento = document.querySelector("#timeDisplay");
 let today = new Date();
+let time = today.getTime();
 let hours = today.getHours();
 if (hours < 10) hours = "0" + hours;
 let minutes = today.getMinutes();
@@ -50,7 +51,6 @@ function defineCity(event) {
 
 // Temperature
 function showTemperature(response) {
-  console.log(response);
   let searchedCity = response.data.name;
   let searchedCountry = response.data.sys.country;
   let messageCity = `Currently in ${searchedCity}, ${searchedCountry}`;
@@ -62,15 +62,39 @@ function showTemperature(response) {
   showTemp.innerHTML = messageTemp;
   let weatherIcon = response.data.weather[0].icon;
   let icon = `https://openweathermap.org/img/wn/${weatherIcon}@2x.png`;
-  console.log(icon);
   let imageIcon = document.getElementById("iconToday");
   imageIcon.src = icon;
-  if (hours < 18) {
-    document.getElementById("#styleGiver").className =
-      "container bg-light text-black text-center";
+  /*
+  let sunriseDate = new Date(response.data.sys.sunrise * 1000);
+  let sunriseProva = response.data.sys.sunrise * 1000;
+  let sunriseTime = sunriseDate.toLocaleTimeString();
+
+  console.log(sunriseProva);
+  console.log(sunriseDate);
+  console.log(sunriseTime);
+
+  let sunsetDate = new Date(response.data.sys.sunset * 1000);
+  let sunsetTime = sunsetDate.toLocaleTimeString();
+
+  console.log(sunsetDate);
+  console.log(sunsetTime);
+
+  let lowNumber = response.data.sys.sunrise * 1000;
+  let timezoneAdjustement = response.data.timezone * 1000;
+  let middleNumber = time - 3600000 + timezoneAdjustement;
+  let highNumber = response.data.sys.sunset * 1000;
+  console.log(time);
+  console.log(response.data.timezone);
+  console.log(timezoneAdjustement);
+  console.log(middleNumber);*/
+  let localTimeAdjustement = response.data.timezone / 3600;
+  let localTime = hours - localTimeAdjustement;
+  if (8 > localTime || localTime > 17) {
+    let styler = document.getElementById("styleGiver");
+    styler.classList = "container bg-dark text-white text-center";
   } else {
-    document.getElementById("#styleGiver").className =
-      "container bg-dark text-white text-center";
+    let styler = document.getElementById("styleGiver");
+    styler.classList = "container bg-light text-dark text-center";
   }
 }
 
