@@ -116,10 +116,18 @@ function displayLocalTime(localHourCorrection) {
 function displayTemperatureFarenheit() {
   let farenheitDegrees = Math.round((celsiusTemperature * 9) / 5 + 32);
   let showFarenheit = document.querySelector("#show-temp");
+  let celsiusSelector = document.querySelector("#celsius-link");
+  celsiusSelector.classList = "link-secondary";
+  let farenheitSelector = document.querySelector("#farenheit-link");
+  farenheitSelector.classList = "text-light";
   showFarenheit.innerHTML = farenheitDegrees;
 }
 function displayTemperatureCelsius() {
   let showFarenheit = document.querySelector("#show-temp");
+  let farenheitSelector = document.querySelector("#farenheit-link");
+  farenheitSelector.classList = "link-secondary";
+  let celsiusSelector = document.querySelector("#celsius-link");
+  celsiusSelector.classList = "text-light";
   if (celsiusTemperature < 10) {
     showFarenheit.innerHTML = `${celsiusTemperature} `;
   } else {

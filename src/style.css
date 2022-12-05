@@ -12,6 +12,7 @@
 #styleGiver {
   max-width: 1000px;
   margin-top: 50px;
+  padding: 20px;
 }
 h3 {
   padding: 20px;
@@ -22,4 +23,7 @@ h3 {
 #searchFormDiv {
   padding: 10px;
   vertical-align: middle;
+}
+#weatherRow {
+  padding-top: 15px;
 }

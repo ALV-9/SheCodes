@@ -25,7 +25,7 @@
       class="container bg-light text-black text-center border border-dark border-opacity-25"
     >
       <div><h1 id="titolo">Weather forecast</h1></div>
-      <div class="row align-items-center">
+      <div id="weatherRow" class="row align-items-center">
         <div class="col-1"></div>
         <div class="col-4">
           <ul>
@@ -47,7 +47,7 @@
           />
         </div>
         <div class="col-4 text-start temperatureDiv">
-          <span id="show-temp"></span><span id="unitSymbols"><a href="#" id="farenheit-link" onmouseover=displayTemperatureCelsius() class="link-secondary">°C</a>|
+          <span id="show-temp"></span><span id="unitSymbols"><a href="#" id="celsius-link" onmouseover=displayTemperatureCelsius() class="text-light ">°C</a>|
             <a href="#" id="farenheit-link" onmouseover=displayTemperatureFarenheit() class="link-secondary">°F</a></span>
         </div>
       </div>
