@@ -165,7 +165,7 @@ function showTemperature(response) {
   let messageWeatherCondition = `${weatherDescription} and it feels ${feltTemperature} °C`;
   conditionSelector.innerHTML = messageWeatherCondition;
   let localHourCorrection =
-    hours - UTCTime / 60 + response.data.timezone / 3600;
+    hours + UTCTime / 60 + response.data.timezone / 3600;
   displayLocalTime(localHourCorrection);
 }
 
