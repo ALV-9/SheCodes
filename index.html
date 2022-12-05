@@ -20,19 +20,35 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
   <body>
-    <div id="styleGiver" class="container bg-light text-black text-center">
-      <h1 id="titolo">Weather forecast</h1>
-      <h5 id="timeDisplay"></h5>
-      <h2>
-        <p>
+    <div
+      id="styleGiver"
+      class="container bg-light text-black text-center border border-dark p-2 mt-50 border-opacity-25"
+    >
+      <div><h1 id="titolo">Weather forecast</h1></div>
+      <div class="row">
+        <div class="col-2"></div>
+        <div class="col-3">
+          <ul>
+            <li class="list-group-item text-start">
+              <span id="timeDisplay"></span><em><span id="localTime"> </span></li></em>
+            </li>
+            <li class="list-group-item text-start">
+              Humidity: <span id="humidityDisplay"> </span>
+            </li>
+            <li class="list-group-item text-start">
+              Windspeed: <span id="windDisplay"> </span>
+            </li>
+          </ul>
+        </div>
+        <div class="col-2">
           <img
             src="https://upload.wikimedia.org/wikipedia/commons/c/ca/1x1.png"
             id="iconToday"
             alt="Smile"
           />
-        </p>
-        <p id="show-temp"></p>
-      </h2>
+        </div>
+        <div id="show-temp" class="col-1 text-center"></div>
+      </div>
       <div>
         <form id="search-city">
           <label for="city"> Show the weather in </label>
@@ -111,16 +127,16 @@
           <div class="col-1"></div>
         </div>
       </div>
+      <div class="text-start">
+        <a
+          id="linkGithub"
+          href="https://github.com/ALV-9/SheCodes"
+          alt="Link to my GitHub repository"
+          class="link-secondary"
+          >Link to my GitHub repository</a
+        >
+      </div>
     </div>
-    <div>
-      <a
-        href="https://github.com/ALV-9/SheCodes"
-        alt="Link to my GitHub repository"
-        class="link-dark"
-        >Link to my GitHub repository</a
-      >
-    </div>
-
     <script src="src/index.js"></script>
   </body>
 </html>

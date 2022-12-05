@@ -2,27 +2,27 @@
 const OWApiKey = "e0a5a97de9a0b7a951e9d154a8f9bad8";
 const units = "metric";
 // Dates
-let momento = "";
-momento = document.querySelector("#timeDisplay");
+let momento = document.querySelector("#timeDisplay");
 let today = new Date();
+console.log(today);
 let time = today.getTime();
 let hours = today.getHours();
 if (hours < 10) hours = "0" + hours;
 let minutes = today.getMinutes();
 if (minutes < 10) minutes = "0" + minutes;
 const weekDays = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
+  "Sun",
+  "Mon",
+  "Tue",
+  "Wed",
+  "Thu",
+  "Fri",
+  "Sat",
+  "Sun",
+  "Mon",
+  "Tue",
+  "Wed",
+  "Thu",
 ];
 let day = weekDays[today.getDay()];
 momento.innerHTML = `${day} ${hours}:${minutes}`;
@@ -49,8 +49,51 @@ function defineCity(event) {
   startIt(apiURL);
 }
 
-// Temperature
+// changes theme according to local time
+function changeTheme(localHourCorrection) {
+  console.log(localHourCorrection);
+  if (8 > localHourCorrection || localHourCorrection > 17) {
+    let linkStyle = document.getElementById("linkGithub");
+    let sheetStyle = document.getElementById("styleGiver");
+    sheetStyle.classList = "container bg-dark text-white text-center";
+    linkStyle.classList = "link-light";
+  } else {
+    let linkStyle = document.getElementById("linkGithub");
+    let sheetStyle = document.getElementById("styleGiver");
+    sheetStyle.classList = "container bg-light text-dark text-center";
+    linkStyle.classList = "link-secondary";
+  }
+}
+
+// Displays local TIme (Week day correction to come)
+function displayLocalTime(localHourCorrection) {
+  console.log(localHourCorrection);
+  if (localHourCorrection < 0) {
+    localHourCorrection = 24 + localHourCorrection;
+    let showLocalTime = document.getElementById("localTime");
+    let messagelocalTIme = ` LT: ${localHourCorrection}:${minutes}`;
+    showLocalTime.innerHTML = messagelocalTIme;
+  } else if (localHourCorrection < 10 && localHourCorrection > 0) {
+    localHourCorrection = "0" + localHourCorrection;
+    let showLocalTime = document.getElementById("localTime");
+    let messagelocalTIme = ` LT: ${localHourCorrection}:${minutes}`;
+    showLocalTime.innerHTML = messagelocalTIme;
+  } else if (localHourCorrection > 24) {
+    localHourCorrection = localHourCorrection - 24;
+    let showLocalTime = document.getElementById("localTime");
+    let messagelocalTIme = ` LT: ${localHourCorrection}:${minutes}`;
+    showLocalTime.innerHTML = messagelocalTIme;
+  } else {
+    let showLocalTime = document.getElementById("localTime");
+    let messagelocalTIme = ` LT: ${localHourCorrection}:${minutes}`;
+    showLocalTime.innerHTML = messagelocalTIme;
+  }
+  changeTheme(localHourCorrection);
+}
+
+// Temperature and weather conditions
 function showTemperature(response) {
+  console.log(response);
   let searchedCity = response.data.name;
   let searchedCountry = response.data.sys.country;
   let messageCity = `Currently in ${searchedCity}, ${searchedCountry}`;
@@ -64,38 +107,16 @@ function showTemperature(response) {
   let icon = `https://openweathermap.org/img/wn/${weatherIcon}@2x.png`;
   let imageIcon = document.getElementById("iconToday");
   imageIcon.src = icon;
-  /*
-  let sunriseDate = new Date(response.data.sys.sunrise * 1000);
-  let sunriseProva = response.data.sys.sunrise * 1000;
-  let sunriseTime = sunriseDate.toLocaleTimeString();
-
-  console.log(sunriseProva);
-  console.log(sunriseDate);
-  console.log(sunriseTime);
-
-  let sunsetDate = new Date(response.data.sys.sunset * 1000);
-  let sunsetTime = sunsetDate.toLocaleTimeString();
-
-  console.log(sunsetDate);
-  console.log(sunsetTime);
-
-  let lowNumber = response.data.sys.sunrise * 1000;
-  let timezoneAdjustement = response.data.timezone * 1000;
-  let middleNumber = time - 3600000 + timezoneAdjustement;
-  let highNumber = response.data.sys.sunset * 1000;
-  console.log(time);
-  console.log(response.data.timezone);
-  console.log(timezoneAdjustement);
-  console.log(middleNumber);*/
-  let localTimeAdjustement = response.data.timezone / 3600;
-  let localTime = hours - localTimeAdjustement;
-  if (8 > localTime || localTime > 17) {
-    let styler = document.getElementById("styleGiver");
-    styler.classList = "container bg-dark text-white text-center";
-  } else {
-    let styler = document.getElementById("styleGiver");
-    styler.classList = "container bg-light text-dark text-center";
-  }
+  let localHourCorrection = hours - 1 + response.data.timezone / 3600;
+  displayLocalTime(localHourCorrection);
+  let windSelector = document.querySelector("#windDisplay");
+  let windSpeed = Math.round(response.data.wind.speed * 3.6);
+  let messageWind = `${windSpeed} km/h`;
+  windSelector.innerHTML = messageWind;
+  let humiditySelector = document.querySelector("#humidityDisplay");
+  let humidityLevel = response.data.main.humidity;
+  let messageHumidity = `${humidityLevel}%`;
+  humiditySelector.innerHTML = messageHumidity;
 }
 
 function startIt(URL) {
