@@ -73,11 +73,11 @@ function displayLocalTime(localHourCorrection) {
     localHourCorrection = 24 + localHourCorrection;
     if (today.getDay() === 0) {
       let showLocalTime = document.getElementById("localTime");
-      let messagelocalTIme = ` LT: ${localHourCorrection}:${minutes} (Sat)`;
+      let messagelocalTIme = ` Local: ${localHourCorrection}:${minutes} (Sat)`;
       showLocalTime.innerHTML = messagelocalTIme;
     } else {
       let showLocalTime = document.getElementById("localTime");
-      let messagelocalTIme = ` LT: ${localHourCorrection}:${minutes} (${
+      let messagelocalTIme = ` Local: ${localHourCorrection}:${minutes} (${
         weekDays[today.getDay() - 1]
       })`;
       showLocalTime.innerHTML = messagelocalTIme;
@@ -85,25 +85,25 @@ function displayLocalTime(localHourCorrection) {
   } else if (localHourCorrection < 10 && localHourCorrection > 0) {
     localHourCorrection = "0" + localHourCorrection;
     let showLocalTime = document.getElementById("localTime");
-    let messagelocalTIme = ` LT: ${localHourCorrection}:${minutes}`;
+    let messagelocalTIme = ` Local: ${localHourCorrection}:${minutes}`;
     showLocalTime.innerHTML = messagelocalTIme;
   } else if (localHourCorrection > 24) {
     localHourCorrection = localHourCorrection - 24;
     if (localHourCorrection < 10) {
       localHourCorrection = "0" + localHourCorrection;
       let showLocalTime = document.getElementById("localTime");
-      let messagelocalTIme = ` LT: ${localHourCorrection}:${minutes} (${
+      let messagelocalTIme = ` Local: ${localHourCorrection}:${minutes} (${
         weekDays[today.getDay() + 1]
       })`;
       showLocalTime.innerHTML = messagelocalTIme;
     } else {
       let showLocalTime = document.getElementById("localTime");
-      let messagelocalTIme = ` LT: ${localHourCorrection}:${minutes}`;
+      let messagelocalTIme = ` Local: ${localHourCorrection}:${minutes}`;
       showLocalTime.innerHTML = messagelocalTIme;
     }
   } else {
     let showLocalTime = document.getElementById("localTime");
-    let messagelocalTIme = ` LT: ${localHourCorrection}:${minutes}`;
+    let messagelocalTIme = ` Local: ${localHourCorrection}:${minutes}`;
     showLocalTime.innerHTML = messagelocalTIme;
   }
   changeTheme(localHourCorrection);
@@ -149,6 +149,11 @@ function showTemperature(response) {
   let humidityLevel = response.data.main.humidity;
   let messageHumidity = `Humidity: ${humidityLevel} %`;
   humiditySelector.innerHTML = messageHumidity;
+  let conditionSelector = document.querySelector("#weatherConditions");
+  let weatherDescription = response.data.weather[0].description;
+  let feltTemperature = Math.round(response.data.main.feels_like);
+  let messageWeatherCondition = `${weatherDescription} and it feels ${feltTemperature} °C`;
+  conditionSelector.innerHTML = messageWeatherCondition;
   let localHourCorrection =
     hours - UTCTime / 60 + response.data.timezone / 3600;
   displayLocalTime(localHourCorrection);
