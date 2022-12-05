@@ -56,12 +56,14 @@ function changeTheme(localHourCorrection) {
   if (8 > localHourCorrection || localHourCorrection > 17) {
     let linkStyle = document.getElementById("linkGithub");
     let sheetStyle = document.getElementById("styleGiver");
-    sheetStyle.classList = "container bg-dark text-white text-center";
+    sheetStyle.classList =
+      "container bg-dark text-light text-center border border-light border-opacity-25";
     linkStyle.classList = "link-light";
   } else {
     let linkStyle = document.getElementById("linkGithub");
     let sheetStyle = document.getElementById("styleGiver");
-    sheetStyle.classList = "container bg-light text-dark text-center";
+    sheetStyle.classList =
+      "container bg-light text-black text-center border border-dark border-opacity-25";
     linkStyle.classList = "link-secondary";
   }
 }
@@ -119,7 +121,7 @@ function displayTemperatureFarenheit() {
 function displayTemperatureCelsius() {
   let showFarenheit = document.querySelector("#show-temp");
   if (celsiusTemperature < 10) {
-    showFarenheit.innerHTML = `${celsiusTemperature}  `;
+    showFarenheit.innerHTML = `${celsiusTemperature} `;
   } else {
     showFarenheit.innerHTML = celsiusTemperature;
   }
