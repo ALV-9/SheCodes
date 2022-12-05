@@ -1,0 +1,11 @@
+#iconToday {
+  width: 100px;
+  height: 100px;
+}
+.temperatureDiv {
+  font-size: 3em;
+}
+#unitSymbols {
+  font-size: 50%;
+  vertical-align: top;
+}

@@ -1,6 +1,7 @@
 //variables
 const OWApiKey = "e0a5a97de9a0b7a951e9d154a8f9bad8";
 const units = "metric";
+let celsiusTemperature = null;
 // Dates
 let momento = document.querySelector("#timeDisplay");
 let today = new Date();
@@ -70,9 +71,17 @@ function displayLocalTime(localHourCorrection) {
   console.log(localHourCorrection);
   if (localHourCorrection < 0) {
     localHourCorrection = 24 + localHourCorrection;
-    let showLocalTime = document.getElementById("localTime");
-    let messagelocalTIme = ` LT: ${localHourCorrection}:${minutes}`;
-    showLocalTime.innerHTML = messagelocalTIme;
+    if (today.getDay() === 0) {
+      let showLocalTime = document.getElementById("localTime");
+      let messagelocalTIme = ` LT: ${localHourCorrection}:${minutes} (Sat)`;
+      showLocalTime.innerHTML = messagelocalTIme;
+    } else {
+      let showLocalTime = document.getElementById("localTime");
+      let messagelocalTIme = ` LT: ${localHourCorrection}:${minutes} (${
+        weekDays[today.getDay() - 1]
+      })`;
+      showLocalTime.innerHTML = messagelocalTIme;
+    }
   } else if (localHourCorrection < 10 && localHourCorrection > 0) {
     localHourCorrection = "0" + localHourCorrection;
     let showLocalTime = document.getElementById("localTime");
@@ -80,9 +89,18 @@ function displayLocalTime(localHourCorrection) {
     showLocalTime.innerHTML = messagelocalTIme;
   } else if (localHourCorrection > 24) {
     localHourCorrection = localHourCorrection - 24;
-    let showLocalTime = document.getElementById("localTime");
-    let messagelocalTIme = ` LT: ${localHourCorrection}:${minutes}`;
-    showLocalTime.innerHTML = messagelocalTIme;
+    if (localHourCorrection < 10) {
+      localHourCorrection = "0" + localHourCorrection;
+      let showLocalTime = document.getElementById("localTime");
+      let messagelocalTIme = ` LT: ${localHourCorrection}:${minutes} (${
+        weekDays[today.getDay() + 1]
+      })`;
+      showLocalTime.innerHTML = messagelocalTIme;
+    } else {
+      let showLocalTime = document.getElementById("localTime");
+      let messagelocalTIme = ` LT: ${localHourCorrection}:${minutes}`;
+      showLocalTime.innerHTML = messagelocalTIme;
+    }
   } else {
     let showLocalTime = document.getElementById("localTime");
     let messagelocalTIme = ` LT: ${localHourCorrection}:${minutes}`;
@@ -92,6 +110,21 @@ function displayLocalTime(localHourCorrection) {
 }
 
 // Temperature and weather conditions
+
+function displayTemperatureFarenheit() {
+  let farenheitDegrees = Math.round((celsiusTemperature * 9) / 5 + 32);
+  let showFarenheit = document.querySelector("#show-temp");
+  showFarenheit.innerHTML = farenheitDegrees;
+}
+function displayTemperatureCelsius() {
+  let showFarenheit = document.querySelector("#show-temp");
+  if (celsiusTemperature < 10) {
+    showFarenheit.innerHTML = `${celsiusTemperature}  `;
+  } else {
+    showFarenheit.innerHTML = celsiusTemperature;
+  }
+}
+
 function showTemperature(response) {
   console.log(response);
   let searchedCity = response.data.name;
@@ -100,23 +133,24 @@ function showTemperature(response) {
   let h1 = document.querySelector("h1");
   h1.innerHTML = messageCity;
   let temperature = Math.round(response.data.main.temp);
-  let messageTemp = `${temperature}°C`;
+  celsiusTemperature = temperature;
+  let messageTemp = `${temperature} `;
   let showTemp = document.querySelector("#show-temp");
   showTemp.innerHTML = messageTemp;
   let weatherIcon = response.data.weather[0].icon;
   let icon = `https://openweathermap.org/img/wn/${weatherIcon}@2x.png`;
   let imageIcon = document.getElementById("iconToday");
   imageIcon.src = icon;
-  let localHourCorrection = hours - 1 + response.data.timezone / 3600;
-  displayLocalTime(localHourCorrection);
   let windSelector = document.querySelector("#windDisplay");
   let windSpeed = Math.round(response.data.wind.speed * 3.6);
-  let messageWind = `${windSpeed} km/h`;
+  let messageWind = `Windspeed: ${windSpeed} km/h`;
   windSelector.innerHTML = messageWind;
   let humiditySelector = document.querySelector("#humidityDisplay");
   let humidityLevel = response.data.main.humidity;
-  let messageHumidity = `${humidityLevel}%`;
+  let messageHumidity = `Humidity: ${humidityLevel} %`;
   humiditySelector.innerHTML = messageHumidity;
+  let localHourCorrection = hours - 1 + response.data.timezone / 3600;
+  displayLocalTime(localHourCorrection);
 }
 
 function startIt(URL) {
@@ -153,3 +187,10 @@ function showPosition(position) {
 
 const inputCurrent = document.querySelector("#currentPosition");
 inputCurrent.addEventListener("click", getLocation);
+
+let farenheitLink = document.querySelector("#farenheit-link");
+farenheitLink.addEventListener("click", displayTemperatureFarenheit);
+
+startIt(
+  `https://api.openweathermap.org/data/2.5/weather?q=London&appid=${OWApiKey}&units=${units}`
+);

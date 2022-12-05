@@ -25,29 +25,29 @@
       class="container bg-light text-black text-center border border-dark p-2 mt-50 border-opacity-25"
     >
       <div><h1 id="titolo">Weather forecast</h1></div>
-      <div class="row">
+      <div class="row align-items-center">
         <div class="col-2"></div>
         <div class="col-3">
           <ul>
             <li class="list-group-item text-start">
               <span id="timeDisplay"></span><em><span id="localTime"> </span></li></em>
             </li>
-            <li class="list-group-item text-start">
-              Humidity: <span id="humidityDisplay"> </span>
+            <li id="humidityDisplay" class="list-group-item text-start">
             </li>
-            <li class="list-group-item text-start">
-              Windspeed: <span id="windDisplay"> </span>
+            <li id="windDisplay" class="list-group-item text-start">
             </li>
           </ul>
         </div>
         <div class="col-2">
           <img
-            src="https://upload.wikimedia.org/wikipedia/commons/c/ca/1x1.png"
             id="iconToday"
-            alt="Smile"
+            alt="Icon"
           />
         </div>
-        <div id="show-temp" class="col-1 text-center"></div>
+        <div class="col-2 text-start temperatureDiv">
+          <span id="show-temp"></span><span id="unitSymbols"><a href="#" id="farenheit-link" onmouseover=displayTemperatureCelsius() class="link-secondary">°C</a>|
+            <a href="#" id="farenheit-link" onmouseover=displayTemperatureFarenheit() class="link-secondary">°F</a></span>
+        </div>
       </div>
       <div>
         <form id="search-city">
@@ -99,7 +99,7 @@
           </div>
           <div class="col-2" id="day3">
             <p id="day3day"></p>
-            <i class="fas fa-sun" width 100px></i>
+            <i class="fas fa-sun"></i>
             <br />
             max 15°
             <br />
@@ -127,7 +127,7 @@
           <div class="col-1"></div>
         </div>
       </div>
-      <div class="text-start">
+      <div class="text-start p-20 m-20">
         <a
           id="linkGithub"
           href="https://github.com/ALV-9/SheCodes"
