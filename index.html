@@ -44,12 +44,12 @@
             alt="Icon"
           />
         </div>
-        <div class="col-2 text-start temperatureDiv">
+        <div class="col-4 text-start temperatureDiv">
           <span id="show-temp"></span><span id="unitSymbols"><a href="#" id="farenheit-link" onmouseover=displayTemperatureCelsius() class="link-secondary">°C</a>|
             <a href="#" id="farenheit-link" onmouseover=displayTemperatureFarenheit() class="link-secondary">°F</a></span>
         </div>
       </div>
-      <div>
+      <div id="searchFormDiv">
         <form id="search-city">
           <label for="city"> Show the weather in </label>
           <input
@@ -67,7 +67,7 @@
           />
         </form>
       </div>
-      <div>
+      <div id="currentPositionDiv">
         <input
           class="btn btn-light"
           id="currentPosition"

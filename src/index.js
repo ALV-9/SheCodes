@@ -5,7 +5,7 @@ let celsiusTemperature = null;
 // Dates
 let momento = document.querySelector("#timeDisplay");
 let today = new Date();
-console.log(today);
+let UTCTime = today.getTimezoneOffset();
 let time = today.getTime();
 let hours = today.getHours();
 if (hours < 10) hours = "0" + hours;
@@ -66,7 +66,7 @@ function changeTheme(localHourCorrection) {
   }
 }
 
-// Displays local TIme (Week day correction to come)
+// Displays local TIme
 function displayLocalTime(localHourCorrection) {
   console.log(localHourCorrection);
   if (localHourCorrection < 0) {
@@ -149,7 +149,8 @@ function showTemperature(response) {
   let humidityLevel = response.data.main.humidity;
   let messageHumidity = `Humidity: ${humidityLevel} %`;
   humiditySelector.innerHTML = messageHumidity;
-  let localHourCorrection = hours - 1 + response.data.timezone / 3600;
+  let localHourCorrection =
+    hours - UTCTime / 60 + response.data.timezone / 3600;
   displayLocalTime(localHourCorrection);
 }
 

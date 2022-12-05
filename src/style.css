@@ -9,3 +9,16 @@
   font-size: 50%;
   vertical-align: top;
 }
+#styleGiver {
+  max-width: 1000px;
+}
+h3 {
+  padding: 20px;
+}
+#currentPositionDiv {
+  padding-top: 10px;
+}
+#searchFormDiv {
+  padding: 10px;
+  vertical-align: middle;
+}
