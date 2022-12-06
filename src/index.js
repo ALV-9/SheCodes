@@ -5,7 +5,6 @@ let celsiusTemperature = null;
 // Dates
 let momento = document.querySelector("#timeDisplay");
 let today = new Date();
-let UTCTime = today.getTimezoneOffset();
 let time = today.getTime();
 let hours = today.getHours();
 if (hours < 10) hours = "0" + hours;
@@ -68,7 +67,7 @@ function changeTheme(localHourCorrection) {
   }
 }
 
-// Displays local TIme
+// Displays local Time in a camplicated way
 function displayLocalTime(localHourCorrection) {
   console.log(localHourCorrection);
   if (localHourCorrection < 0) {
@@ -165,7 +164,10 @@ function showTemperature(response) {
   let messageWeatherCondition = `${weatherDescription} and it feels ${feltTemperature} °C`;
   conditionSelector.innerHTML = messageWeatherCondition;
   let localHourCorrection =
-    hours + UTCTime / 60 + response.data.timezone / 3600;
+    today.getHours() +
+    today.getTimezoneOffset() / 60 +
+    response.data.timezone / 3600;
+  console.log(localHourCorrection);
   displayLocalTime(localHourCorrection);
 }
 
