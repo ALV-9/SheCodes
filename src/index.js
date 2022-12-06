@@ -68,7 +68,7 @@ function changeTheme(localHourCorrection) {
     let celsiusSelector = document.querySelector("#celsius-link");
     celsiusSelector.classList = "link-dark";
     let farenheitSelector = document.querySelector("#farenheit-link");
-    farenheitSelector.classList = "text-secondary";
+    farenheitSelector.classList = "text-secondary text-opacity-25";
     let linkStyle = document.getElementById("linkGithub");
     let sheetStyle = document.getElementById("styleGiver");
     sheetStyle.classList =
@@ -98,7 +98,7 @@ function displayLocalTime(localHourCorrection) {
     let showLocalTime = document.getElementById("localTime");
     let messagelocalTIme = ` Local: ${localHourCorrection}:${minutes}`;
     showLocalTime.innerHTML = messagelocalTIme;
-  } else if (localHourCorrection > 24) {
+  } else if (localHourCorrection >= 24) {
     localHourCorrection = localHourCorrection - 24;
     if (localHourCorrection < 10) {
       localHourCorrection = "0" + localHourCorrection;
@@ -154,6 +154,7 @@ function showTemperature(response) {
     today.getHours() +
     today.getTimezoneOffset() / 60 +
     response.data.timezone / 3600;
+  console.log(localHourCorrection);
   displayLocalTime(localHourCorrection);
 }
 
@@ -199,7 +200,7 @@ function displayTemperatureFarenheit() {
   showFarenheit.innerHTML = farenheitDegrees;
   if (style === "day") {
     farenheitSelector.classList = "text-dark";
-    celsiusSelector.classList = "link-secondary";
+    celsiusSelector.classList = "link-secondary text-opacity-25";
   } else {
     farenheitSelector.classList = "text-light";
     celsiusSelector.classList = "link-secondary";
@@ -210,7 +211,7 @@ function displayTemperatureCelsius() {
   let farenheitSelector = document.querySelector("#farenheit-link");
   let celsiusSelector = document.querySelector("#celsius-link");
   if (style === "day") {
-    farenheitSelector.classList = "link-secondary";
+    farenheitSelector.classList = "link-secondary text-opacity-25";
     celsiusSelector.classList = "text-dark";
   } else {
     farenheitSelector.classList = "link-secondary";
