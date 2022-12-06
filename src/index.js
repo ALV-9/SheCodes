@@ -2,6 +2,7 @@
 const OWApiKey = "e0a5a97de9a0b7a951e9d154a8f9bad8";
 const units = "metric";
 let celsiusTemperature = null;
+let style = null;
 // Dates
 let momento = document.querySelector("#timeDisplay");
 let today = new Date();
@@ -37,6 +38,7 @@ let fourthday = document.querySelector("#day4day");
 fourthday.innerHTML = weekDays[today.getDay() + 4];
 let fifthday = document.querySelector("#day5day");
 fifthday.innerHTML = weekDays[today.getDay() + 5];
+
 // Get city
 
 const inputCity = document.querySelector("#search-city");
@@ -51,25 +53,33 @@ function defineCity(event) {
 
 // changes theme according to local time
 function changeTheme(localHourCorrection) {
-  console.log(localHourCorrection);
   if (8 > localHourCorrection || localHourCorrection > 17) {
+    let celsiusSelector = document.querySelector("#celsius-link");
+    celsiusSelector.classList = "link-light";
+    let farenheitSelector = document.querySelector("#farenheit-link");
+    farenheitSelector.classList = "text-secondary";
     let linkStyle = document.getElementById("linkGithub");
     let sheetStyle = document.getElementById("styleGiver");
     sheetStyle.classList =
       "container bg-dark text-light text-center border border-light border-opacity-25";
     linkStyle.classList = "link-light";
+    style = "night";
   } else {
+    let celsiusSelector = document.querySelector("#celsius-link");
+    celsiusSelector.classList = "link-dark";
+    let farenheitSelector = document.querySelector("#farenheit-link");
+    farenheitSelector.classList = "text-secondary";
     let linkStyle = document.getElementById("linkGithub");
     let sheetStyle = document.getElementById("styleGiver");
     sheetStyle.classList =
       "container bg-light text-black text-center border border-dark border-opacity-25";
     linkStyle.classList = "link-secondary";
+    style = "day";
   }
 }
 
 // Displays local Time in a camplicated way
 function displayLocalTime(localHourCorrection) {
-  console.log(localHourCorrection);
   if (localHourCorrection < 0) {
     localHourCorrection = 24 + localHourCorrection;
     if (today.getDay() === 0) {
@@ -112,30 +122,7 @@ function displayLocalTime(localHourCorrection) {
 
 // Temperature and weather conditions
 
-function displayTemperatureFarenheit() {
-  let farenheitDegrees = Math.round((celsiusTemperature * 9) / 5 + 32);
-  let showFarenheit = document.querySelector("#show-temp");
-  let celsiusSelector = document.querySelector("#celsius-link");
-  celsiusSelector.classList = "link-secondary";
-  let farenheitSelector = document.querySelector("#farenheit-link");
-  farenheitSelector.classList = "text-light";
-  showFarenheit.innerHTML = farenheitDegrees;
-}
-function displayTemperatureCelsius() {
-  let showFarenheit = document.querySelector("#show-temp");
-  let farenheitSelector = document.querySelector("#farenheit-link");
-  farenheitSelector.classList = "link-secondary";
-  let celsiusSelector = document.querySelector("#celsius-link");
-  celsiusSelector.classList = "text-light";
-  if (celsiusTemperature < 10) {
-    showFarenheit.innerHTML = `${celsiusTemperature} `;
-  } else {
-    showFarenheit.innerHTML = celsiusTemperature;
-  }
-}
-
 function showTemperature(response) {
-  console.log(response);
   let searchedCity = response.data.name;
   let searchedCountry = response.data.sys.country;
   let messageCity = `Currently in ${searchedCity}, ${searchedCountry}`;
@@ -167,7 +154,6 @@ function showTemperature(response) {
     today.getHours() +
     today.getTimezoneOffset() / 60 +
     response.data.timezone / 3600;
-  console.log(localHourCorrection);
   displayLocalTime(localHourCorrection);
 }
 
@@ -189,7 +175,7 @@ function getLocation() {
 function showCity(response) {
   let currentCity = response.data[0].name;
   let currentCountry = response.data[0].country;
-  let message = `Currently in ${currentCity}, ${currentCountry}`;
+  let message = `Weather in ${currentCity}, ${currentCountry}`;
   let h1 = document.querySelector("h1");
   h1.innerHTML = message;
   let apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${currentCity}&appid=${OWApiKey}&units=${units}`;
@@ -203,12 +189,44 @@ function showPosition(position) {
   axios.get(reversoGeoApiURL).then(showCity);
 }
 
+// Temperature display
+
+function displayTemperatureFarenheit() {
+  let farenheitDegrees = Math.round((celsiusTemperature * 9) / 5 + 32);
+  let showFarenheit = document.querySelector("#show-temp");
+  let celsiusSelector = document.querySelector("#celsius-link");
+  let farenheitSelector = document.querySelector("#farenheit-link");
+  showFarenheit.innerHTML = farenheitDegrees;
+  if (style === "day") {
+    farenheitSelector.classList = "text-dark";
+    celsiusSelector.classList = "link-secondary";
+  } else {
+    farenheitSelector.classList = "text-light";
+    celsiusSelector.classList = "link-secondary";
+  }
+}
+function displayTemperatureCelsius() {
+  let showFarenheit = document.querySelector("#show-temp");
+  let farenheitSelector = document.querySelector("#farenheit-link");
+  let celsiusSelector = document.querySelector("#celsius-link");
+  if (style === "day") {
+    farenheitSelector.classList = "link-secondary";
+    celsiusSelector.classList = "text-dark";
+  } else {
+    farenheitSelector.classList = "link-secondary";
+    celsiusSelector.classList = "text-light";
+  }
+  if (celsiusTemperature < 10) {
+    showFarenheit.innerHTML = `${celsiusTemperature} `;
+  } else {
+    showFarenheit.innerHTML = celsiusTemperature;
+  }
+}
+
 const inputCurrent = document.querySelector("#currentPosition");
 inputCurrent.addEventListener("click", getLocation);
 
-let farenheitLink = document.querySelector("#farenheit-link");
-farenheitLink.addEventListener("click", displayTemperatureFarenheit);
-
+// Start website in London
 startIt(
   `https://api.openweathermap.org/data/2.5/weather?q=London&appid=${OWApiKey}&units=${units}`
 );
