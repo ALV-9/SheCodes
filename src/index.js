@@ -1,5 +1,5 @@
 //variables
-const OWApiKey = "e0a5a97de9a0b7a951e9d154a8f9bad8";
+const OWApiKey = "ed55b36e362d8733f7d859247cedeaf2";
 const units = "metric";
 let celsiusTemperature = null;
 let style = null;
@@ -79,6 +79,7 @@ function changeTheme(localHourCorrection) {
 }
 
 // Displays local Time in a camplicated way
+
 function displayLocalTime(localHourCorrection) {
   if (localHourCorrection < 0) {
     localHourCorrection = 24 + localHourCorrection;
@@ -120,9 +121,33 @@ function displayLocalTime(localHourCorrection) {
   changeTheme(localHourCorrection);
 }
 
+// Weather forecast
+function getForecast(response) {
+  console.log(response.data.daily);
+  for (let i = 0; i < 5; i++) {
+    let selectorIcon = document.querySelector(`#day${i + 1}Icon`);
+    let selectorMax = document.querySelector(`#day${i + 1}Max`);
+    let selectorMin = document.querySelector(`#day${i + 1}Min`);
+    let icon = response.data.daily[i].weather[0].icon;
+    selectorIcon.src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+    selectorMax.innerHTML = Math.round(response.data.daily[i].temp.max);
+    selectorMin.innerHTML = Math.round(response.data.daily[i].temp.min);
+    let firstDay = response.data.daily[0].dt;
+    console.log(firstDay);
+  }
+}
+//Forecast Api Call
+function weatherForecastApiCall(coordinates) {
+  console.log(coordinates);
+  let apiURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${OWApiKey}&units=${units}`;
+  console.log(apiURL);
+  axios.get(apiURL).then(getForecast);
+}
+
 // Temperature and weather conditions
 
 function showTemperature(response) {
+  console.log(response);
   let searchedCity = response.data.name;
   let searchedCountry = response.data.sys.country;
   let messageCity = `Currently in ${searchedCity}, ${searchedCountry}`;
@@ -155,6 +180,7 @@ function showTemperature(response) {
     today.getTimezoneOffset() / 60 +
     response.data.timezone / 3600;
   console.log(localHourCorrection);
+  weatherForecastApiCall(response.data.coord);
   displayLocalTime(localHourCorrection);
 }
 
