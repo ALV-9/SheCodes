@@ -46,8 +46,10 @@
             alt="Icon"
           />
         </div>
-        <div id="temperatureDiv" class="col-4 text-start temperatureDiv">
-          <span id="show-temp"></span><span id="unitSymbols"><a href="#" id="celsius-link" onmouseover=displayTemperatureCelsius() class="text-light ">°C</a>|
+        <div id="temperatureDiv" class="col-1 text-start temperatureDiv">
+          <span id="show-temp"></span> 
+        </div>
+          <div id="unitsDiv" class="col-3 text-start"><span id="unitSymbols"> <a href="#" id="celsius-link" onmouseover=displayTemperatureCelsius() class="text-light ">°C</a> | 
             <a href="#" id="farenheit-link" onmouseover=displayTemperatureFarenheit() class="link-secondary">°F</a></span>
         </div>
       </div>
@@ -64,14 +66,14 @@
           <input
             type="submit"
             value="GO"
-            class="btn btn-light"
+            class=""
             id="cityButton"
           />
         </form>
       </div>
       <div id="currentPositionDiv">
         <input
-          class="btn btn-light"
+          class=""
           id="currentPosition"
           type="button"
           value="Current position"
@@ -83,7 +85,7 @@
           <div class="col-1"></div>
           <div class="col-2" id="day1">
             <p id="day1day"></p>
-            <img src="" id="day1Icon">
+            <img src="" id="day1Icon" class="secondaryIcon">
             <br />
             max <span id="day1Max"></span>°
             <br />
@@ -92,7 +94,7 @@
           </div>
           <div class="col-2" id="day2">
             <p id="day2day"></p>
-            <img src="" id="day2Icon">
+            <img src="" id="day2Icon" class="secondaryIcon">
             <br />
             max <span id="day2Max"></span>°
             <br />
@@ -101,7 +103,7 @@
           </div>
           <div class="col-2" id="day3">
             <p id="day3day"></p>
-            <img src="" id="day3Icon">
+            <img src="" id="day3Icon" class="secondaryIcon">
             <br />
             max <span id="day3Max"></span>°
             <br />
@@ -110,7 +112,7 @@
           </div>
           <div class="col-2" id="day4">
             <p id="day4day"></p>
-            <img src="" id="day4Icon">
+            <img src="" id="day4Icon" class="secondaryIcon">
             <br />
             max <span id="day4Max"></span>°
             <br />
@@ -119,7 +121,7 @@
           </div>
           <div class="col-2" id="day5">
             <p id="day5day"></p>
-            <img src="" id="day5Icon">
+            <img src="" id="day5Icon" class="secondaryIcon">
             <br />
             max <span id="day5Max"></span>°
             <br />
@@ -129,7 +131,7 @@
           <div class="col-1"></div>
         </div>
       </div>
-      <div class="text-start p-20 m-20">
+      <div class="text-start" id="githubLink">
         <a
           id="linkGithub"
           href="https://github.com/ALV-9/SheCodes"

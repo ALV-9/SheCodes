@@ -3,6 +3,8 @@ const OWApiKey = "ed55b36e362d8733f7d859247cedeaf2";
 const units = "metric";
 let celsiusTemperature = null;
 let style = null;
+let forecast = null;
+
 // Dates
 let momento = document.querySelector("#timeDisplay");
 let today = new Date();
@@ -55,26 +57,34 @@ function defineCity(event) {
 function changeTheme(localHourCorrection) {
   if (8 > localHourCorrection || localHourCorrection > 17) {
     let celsiusSelector = document.querySelector("#celsius-link");
-    celsiusSelector.classList = "link-light";
     let farenheitSelector = document.querySelector("#farenheit-link");
-    farenheitSelector.classList = "text-secondary";
     let linkStyle = document.getElementById("linkGithub");
     let sheetStyle = document.getElementById("styleGiver");
-    sheetStyle.classList =
-      "container bg-dark text-light text-center border border-light border-opacity-25";
+    let buttonStyle = document.querySelector("#cityButton");
+    let currentPositinoStyle = document.querySelector("#currentPosition");
+    currentPositinoStyle.classList = "btn btn-light";
+    buttonStyle.classList = "btn btn-light";
     linkStyle.classList = "link-light";
     style = "night";
+    farenheitSelector.classList = "link-secondary";
+    celsiusSelector.classList = "link-light";
+    sheetStyle.classList =
+      "container bg-dark text-light text-center border border-light border-opacity-25";
   } else {
     let celsiusSelector = document.querySelector("#celsius-link");
-    celsiusSelector.classList = "link-dark";
     let farenheitSelector = document.querySelector("#farenheit-link");
-    farenheitSelector.classList = "text-secondary text-opacity-25";
     let linkStyle = document.getElementById("linkGithub");
     let sheetStyle = document.getElementById("styleGiver");
-    sheetStyle.classList =
-      "container bg-light text-black text-center border border-dark border-opacity-25";
+    let buttonStyle = document.querySelector("#cityButton");
+    let currentPositinoStyle = document.querySelector("#currentPosition");
+    currentPositinoStyle.classList = "btn btn-secondary";
+    buttonStyle.classList = "btn btn-secondary";
+    celsiusSelector.classList = "link-dark";
+    farenheitSelector.classList = "link-secondary";
     linkStyle.classList = "link-secondary";
     style = "day";
+    sheetStyle.classList =
+      "container bg-light text-black text-center border border-dark border-opacity-25";
   }
 }
 
@@ -94,7 +104,7 @@ function displayLocalTime(localHourCorrection) {
       })`;
       showLocalTime.innerHTML = messagelocalTIme;
     }
-  } else if (localHourCorrection < 10 && localHourCorrection > 0) {
+  } else if (localHourCorrection < 10 && localHourCorrection >= 0) {
     localHourCorrection = "0" + localHourCorrection;
     let showLocalTime = document.getElementById("localTime");
     let messagelocalTIme = ` Local: ${localHourCorrection}:${minutes}`;
@@ -123,24 +133,21 @@ function displayLocalTime(localHourCorrection) {
 
 // Weather forecast
 function getForecast(response) {
-  console.log(response.data.daily);
   for (let i = 0; i < 5; i++) {
     let selectorIcon = document.querySelector(`#day${i + 1}Icon`);
     let selectorMax = document.querySelector(`#day${i + 1}Max`);
     let selectorMin = document.querySelector(`#day${i + 1}Min`);
-    let icon = response.data.daily[i].weather[0].icon;
-    selectorIcon.src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+
+    selectorIcon.src = `https://openweathermap.org/img/wn/${response.data.daily[i].weather[0].icon}@2x.png`;
     selectorMax.innerHTML = Math.round(response.data.daily[i].temp.max);
     selectorMin.innerHTML = Math.round(response.data.daily[i].temp.min);
-    let firstDay = response.data.daily[0].dt;
-    console.log(firstDay);
   }
+  forecast = response.data.daily;
 }
+
 //Forecast Api Call
 function weatherForecastApiCall(coordinates) {
-  console.log(coordinates);
   let apiURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${OWApiKey}&units=${units}`;
-  console.log(apiURL);
   axios.get(apiURL).then(getForecast);
 }
 
@@ -179,7 +186,6 @@ function showTemperature(response) {
     today.getHours() +
     today.getTimezoneOffset() / 60 +
     response.data.timezone / 3600;
-  console.log(localHourCorrection);
   weatherForecastApiCall(response.data.coord);
   displayLocalTime(localHourCorrection);
 }
@@ -219,6 +225,14 @@ function showPosition(position) {
 // Temperature display
 
 function displayTemperatureFarenheit() {
+  for (i = 0; i < 5; i++) {
+    let selectorMax = document.querySelector(`#day${i + 1}Max`);
+    let selectorMin = document.querySelector(`#day${i + 1}Min`);
+    let messageMax = Math.round((forecast[i].temp.max * 9) / 5 + 32);
+    let messageMin = Math.round((forecast[i].temp.min * 9) / 5 + 32);
+    selectorMax.innerHTML = messageMax;
+    selectorMin.innerHTML = messageMin;
+  }
   let farenheitDegrees = Math.round((celsiusTemperature * 9) / 5 + 32);
   let showFarenheit = document.querySelector("#show-temp");
   let celsiusSelector = document.querySelector("#celsius-link");
@@ -226,18 +240,26 @@ function displayTemperatureFarenheit() {
   showFarenheit.innerHTML = farenheitDegrees;
   if (style === "day") {
     farenheitSelector.classList = "text-dark";
-    celsiusSelector.classList = "link-secondary text-opacity-25";
+    celsiusSelector.classList = "link-secondary text-opacity-50";
   } else {
     farenheitSelector.classList = "text-light";
     celsiusSelector.classList = "link-secondary";
   }
 }
 function displayTemperatureCelsius() {
+  for (i = 0; i < 5; i++) {
+    let selectorMax = document.querySelector(`#day${i + 1}Max`);
+    let selectorMin = document.querySelector(`#day${i + 1}Min`);
+    let messageMax = Math.round(forecast[i].temp.max);
+    let messageMin = Math.round(forecast[i].temp.min);
+    selectorMax.innerHTML = messageMax;
+    selectorMin.innerHTML = messageMin;
+  }
   let showFarenheit = document.querySelector("#show-temp");
   let farenheitSelector = document.querySelector("#farenheit-link");
   let celsiusSelector = document.querySelector("#celsius-link");
   if (style === "day") {
-    farenheitSelector.classList = "link-secondary text-opacity-25";
+    farenheitSelector.classList = "link-secondary text-opacity-50";
     celsiusSelector.classList = "text-dark";
   } else {
     farenheitSelector.classList = "link-secondary";

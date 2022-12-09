@@ -3,11 +3,7 @@
   height: 100px;
 }
 .temperatureDiv {
-  font-size: 3em;
-}
-#unitSymbols {
-  font-size: 50%;
-  vertical-align: top;
+  font-size: 3.5em;
 }
 #styleGiver {
   max-width: 1000px;
@@ -22,8 +18,20 @@ h3 {
 }
 #searchFormDiv {
   padding: 10px;
-  vertical-align: middle;
+  vertical-align: text-bottom;
 }
 #weatherRow {
   padding-top: 15px;
+}
+#unitsDiv {
+  font-size: 2em;
+  text-align: top;
+  vertical-align: text-top;
+}
+.secondaryIcon {
+  max-width: 60%;
+}
+#githubLink {
+  min-height: 100px;
+  padding-top: 70px;
 }
